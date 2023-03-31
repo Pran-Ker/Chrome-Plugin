@@ -16,6 +16,7 @@
     "angular-ui-codemirror": "^0.3.0",
     "bootstrap": "^4.4.1",
     "buefy": "^0.8.20",
+    "chokidar": "^3.5.3",
     "codemirror": "^5.58.2",
     "css-loader": "^3.3.2",
     "mousetrap": "^1.6.3",
