@@ -1,155 +1,55 @@
+// Get the necessary HTML elements
+const urlInput = document.querySelector('#url-input');
+const saveButton = document.querySelector('#save-button');
+const searchInput = document.querySelector('#search-input');
+const searchButton = document.querySelector('#search-button');
+const resultsList = document.querySelector('#results-list');
 
-const app = document.querySelector("#app");
-const delay = ms => new Promise(res => setTimeout(res, ms));
-    
-    
-app.addEventListener("keypress", async function(event){
-  if(event.key === "Enter"){
-    await delay(150);
-   getInputValue();
-   
-    removeInput();
-    await delay(150);
-    new_line();
+// Load the saved URLs from storage, or create an empty array if none exist yet
+let savedUrls = JSON.parse(localStorage.getItem('savedUrls')) || [];
+
+// Save the current URLs to storage
+function saveUrls() {
+  localStorage.setItem('savedUrls', JSON.stringify(savedUrls));
+}
+
+// Add a new URL to the saved list
+function addUrl(url) {
+  const baseUrl = new URL(url).hostname;
+  const extension = url.split('.').pop();
+  savedUrls.push({ url, baseUrl, extension });
+  saveUrls();
+}
+
+// Display the saved URLs in the results list
+function displayResults(results) {
+  resultsList.innerHTML = '';
+  results.forEach(({ url, baseUrl, extension }) => {
+    const li = document.createElement('li');
+    li.innerHTML = `<a href="${url}" target="_blank">${baseUrl}.${extension}</a>`;
+    resultsList.appendChild(li);
+  });
+}
+
+// Handle the save button click event
+saveButton.addEventListener('click', () => {
+  const url = urlInput.value.trim();
+  if (url) {
+    addUrl(url);
+    urlInput.value = '';
   }
 });
 
-app.addEventListener("click", function(event){
-  const input = document.querySelector("input");
-  input.focus();
-})
-
-
-async function open_terminal(){
-  createText("Welcome");
-  await delay(700);
-  createText("Starting the server...");
-  await delay(1500);
-  createText("You can run several commands:");
- 
-  createCode("about me", "Who am i and what do i do.");
-  createCode("all", "See all commands.");
-  createCode("social -a", "All my social networks.");
-
-  await delay(500);
-  new_line();
-}
-
-
-function new_line(){
-  
-  const p = document.createElement("p");
-  const span1 = document.createElement("span");
-  const span2 = document.createElement("span");
-  p.setAttribute("class", "path")
-  p.textContent = "# user";
-  span1.textContent = " in";
-  span2.textContent = "";
-  p.appendChild(span1);
-  p.appendChild(span2);
-  app.appendChild(p);
-  const div = document.createElement("div");
-  div.setAttribute("class", "type")
-  const i = document.createElement("i");
-  i.setAttribute("class", "fas fa-angle-right icone")
-  const input = document.createElement("input");
-  div.appendChild(i);
-  div.appendChild(input);
-  app.appendChild(div);
-  input.focus();
-  
-}
-
-function removeInput(){
-  const div = document.querySelector(".type");
-  app.removeChild(div);
-}
-
-async function getInputValue(){
-  
-  const value = document.querySelector("input").value;
-  if(value === "all"){
-    trueValue(value);
-    
-    createCode("", "");
-    createCode(" me", "");
-    createCode(" -a", "All my social networks.");
-    createCode("clear", "Clean the terminal.");
-    
+// Handle the search button click event
+searchButton.addEventListener('click', () => {
+  const query = searchInput.value.trim().toLowerCase();
+  if (query) {
+    const results = savedUrls.filter(({ baseUrl }) => baseUrl.toLowerCase().includes(query));
+    displayResults(results);
+  } else {
+    displayResults(savedUrls);
   }
-  else if(value === "projects"){
-    trueValue(value);
-    createText("<a href='https://github.com/Pran-Ker' target='_blank'><i class='fab fa-github white'></i> github.com/heberleonard2</a>")
-  }
-  else if(value === "about me"){
-    trueValue(value);
-    createText("")
-    createText("")
-  }
-  else if(value === "social -a"){
-    trueValue(value);
-    createText("<a href='' target='_blank'><i class='fab fa-github white'></i> </a>")
-    createText("<a href='' target='_blank'><i class='fab fa-linkedin-in white'></i></a>")
-    createText("<a href='' target='_blank'><i class='fab fa-instagram white'></i> </a>")
-  }
-  else if(value === "social"){
-    trueValue(value);
-    createText("Didn't you mean: social -a?")
-  }
-  
-  else if(value === "clear"){
-    document.querySelectorAll("p").forEach(e => e.parentNode.removeChild(e));
-    document.querySelectorAll("section").forEach(e => e.parentNode.removeChild(e));
-  }
-  else{
-    falseValue(value);
-    createText(`command not found: ${value}`)
-  }
-}
+});
 
-function trueValue(value){
-  
-  const div = document.createElement("section");
-  div.setAttribute("class", "type2")
-  const i = document.createElement("i");
-  i.setAttribute("class", "fas fa-angle-right icone")
-  const mensagem = document.createElement("h2");
-  mensagem.setAttribute("class", "sucess")
-  mensagem.textContent = `${value}`;
-  div.appendChild(i);
-  div.appendChild(mensagem);
-  app.appendChild(div);
-}
-
-function falseValue(value){
-  
-  const div = document.createElement("section");
-  div.setAttribute("class", "type2")
-  const i = document.createElement("i");
-  i.setAttribute("class", "fas fa-angle-right icone error")
-  const mensagem = document.createElement("h2");
-  mensagem.setAttribute("class", "error")
-  mensagem.textContent = `${value}`;
-  div.appendChild(i);
-  div.appendChild(mensagem);
-  app.appendChild(div);
-}
-
-function createText(text, classname){
-  const p = document.createElement("p");
-  
-  p.innerHTML =
-  text
-  ;
-  app.appendChild(p);
-}
-
-function createCode(code, text){
-  const p = document.createElement("p");
-  p.setAttribute("class", "code");
-  p.innerHTML =
- `${code} <br/><span class='text'> ${text} </span>`;
-  app.appendChild(p);
-}
-
-open_terminal();
+// Load the saved URLs on page load
+displayResults(savedUrls);

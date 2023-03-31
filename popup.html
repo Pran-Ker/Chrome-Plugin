@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Prannay's Launcher</title>
+    <title>Launcher</title>
     <link
       href="https://fonts.googleapis.com/css?family=Open+Sans"
       rel="stylesheet"
@@ -106,42 +106,19 @@
         color: #000;
       }
     </style>
-    <script src="popup.js"></script>
   </head>
-
   <body>
-    <div class="modal-header">
-      <h1 class="logo">
-        <img class="logo-icon" src="images/traversy-logo.png" /> Prannay's Launcher
-        <span class="version">(1.0.0)</span>
-      </h1>
+    <div>
+      <label for="url-input">Enter URL:</label>
+      <input type="text" id="url-input" />
+      <button id="save-button">Save</button>
     </div>
-    <div class="modal-content">
-      <p>Launcher that gives direct links to Prannay's social media pages</p>
+    <div>
+      <label for="search-input">Search by base URL:</label>
+      <input type="text" id="search-input" />
+      <button id="search-button">Search</button>
     </div>
-    <div class="modal-icons">
-      <div class="flex-container">
-        <div class="flex">
-          <a href="https://pran-ker.github.io" target="_blank">
-            <i class="fa fa-youtube" style="color:darksalmon "></i>
-          </a>
-        </div>
-        <div class="flex">
-          <a href="https://twitter.com/HebbarPrannay" target="_blank">
-            <i class="fa fa-twitter" style="color:darksalmon "></i>
-          </a>
-        </div>
-        <div class="flex">
-          <a href="https://www.facebook.com/prannay.hebbar.5" target="_blank">
-            <i class="fa fa-facebook" style="color:darksalmon "></i>
-          </a>
-        </div>
-        <div class="flex">
-          <a href="https://github.com/Pran-Ker" target="_blank">
-            <i class="fa fa-github" style="color:darksalmon "></i>
-          </a>
-        </div>
-      </div>
-    </div>
+    <ul id="results-list"></ul>
+    <script src="popup.js"></script>
   </body>
 </html>
