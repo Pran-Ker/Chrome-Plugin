@@ -24,19 +24,22 @@
         min-height: 180px;
         padding: 0;
         width: 384px;
+        background-color: #aaaaaa;
       }
 
       h1 {
-        font-family: "Menlo", monospace;
+        font-family: "Roboto", sans-serif;
         font-size: 22px;
         font-weight: 400;
         margin: 0;
-        color: #2f5876;
+        color: #fff;
+        text-align: center;
+        margin-top: 40px;
       }
 
       a:link,
       a:visited {
-        color: #000000;
+        color: #fff;
         outline: 0;
         text-decoration: none;
       }
@@ -84,15 +87,23 @@
         opacity: 1;
         transition: opacity 0.2s ease-in-out;
         width: 120px;
+        height: 120px;
+        background-color: #fff;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        margin-top: 30px;
       }
 
       .flex:hover {
-        opacity: 0.4;
+        opacity: 0.7;
       }
 
       .flex .fa {
         font-size: 40px;
-        color: #2f5876;
+        color: #000;
       }
     </style>
     <script src="popup.js"></script>
